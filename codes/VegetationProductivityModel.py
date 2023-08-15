@@ -372,10 +372,9 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
                         SLA = 25
 
             func.MakeDirectory(site, year)
-            with open(f'../out/{site}/{year}/daily/allocation_{year}.csv', 'a') as ALLOCATION, \
-                    open(f'../out/{site}/{year}/daily/daily_{year}.csv', 'a') as DAILY, \
-                    open(f'../out/{site}/{year}/daily/carbon_{year}.csv', 'a') as CARBON, \
-                    open(f'../out/{site}/{year}/meanclim/meanclim_{year}.csv', 'a') as MEANCLIM:
+            with open(f'../out/{site}/{year}/daily/allocation_{year}.csv', 'w') as ALLOCATION, \
+                    open(f'../out/{site}/{year}/daily/daily_{year}.csv', 'w') as DAILY, \
+                    open(f'../out/{site}/{year}/meanclim/meanclim_{year}.csv', 'w') as MEANCLIM:
 
                 y2 = -1
                 for month in range(1, 13):
@@ -498,12 +497,13 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
                         rh_sum = 0
                         u_z_sum = 0
                         W_sum = 0
+                        A_n_obs_sum = 0
                         S_b_down = [0]*(N_layer+1)
                         S_d_down = [0]*(N_layer+1)
                         S_d_up = [0]*(N_layer+1)
 
                         t = -10 # time of the day (min)
-                        with open(f'./../data/{site}/forcing/{site}_{year}_{str(month).zfill(2)}_{str(day).zfill(2)}.csv', 'r') as IN, \
+                        with open(f'./../data/{site}/forcing/{year}/{site}_{year}_{str(month).zfill(2)}_{str(day).zfill(2)}.csv', 'r') as IN, \
                             open(f'./../out/{site}/{year}/canopy/canopy_{year}_{str(month).zfill(2)}_{str(day).zfill(2)}.csv', 'w') as CANOPY:
 
                             reader = csv.reader(IN)
@@ -513,10 +513,10 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
                                 min = int(t % 60) # (min)
                                 flux_data[1:] = [float(data) for data in flux_data[1:]]
 
-                                T_a_C, T_a_K, rainfall, u_z, pressure, R_s_total, rh, VPD_a, rho_a, C_p, c_p, gamma, Delta, sun_duration_pos, COSTHETA, R_s_d_total, sun_duration, S_max, R_s_b_total, solar_elevation, k_b, k_d, k_b_black, k_d_black, L_down, R_s_b, R_s_d, T_a_C_pre, rainfall_pre, rh_pre, u_z_pre, R_s_total_pre = func.inputClimateData(t, t_start, t_step, elv, flux_data, solar_elevation, a0, b0, c0, R, M_d, C_pd, k_b_black, DOY_max, DOY, latitude, refraction, lon, lon_LST, SteBol_const, sun_duration_sum, sun_duration_count, T_a_C_pre, rainfall_pre, rh_pre, u_z_pre, R_s_total_pre)
+                                T_a_C, T_a_K, rainfall, u_z, pressure, R_s_total, A_n_obs, rh, VPD_a, rho_a, C_p, c_p, gamma, Delta, sun_duration_pos, COSTHETA, R_s_d_total, sun_duration, S_max, R_s_b_total, solar_elevation, k_b, k_d, k_b_black, k_d_black, L_down, R_s_b, R_s_d, T_a_C_pre, rainfall_pre, rh_pre, u_z_pre, R_s_total_pre = func.inputClimateData(t, t_start, t_step, elv, flux_data, solar_elevation, a0, b0, c0, R, M_d, C_pd, k_b_black, DOY_max, DOY, latitude, refraction, lon, lon_LST, SteBol_const, sun_duration_sum, sun_duration_count, T_a_C_pre, rainfall_pre, rh_pre, u_z_pre, R_s_total_pre)
                                 ### Main ##########
 
-                                T_a_C_sum, R_s_sum, pressure_sum, rainfall_sum, rh_sum, u_z_sum, W_sum, T_a_C_mean, pressure_mean, rh_mean, u_z_mean, W_mean = func.DailyMeanClimate(t, t_start, t_step, T_a_C, rainfall, pressure, R_s_total, rh, u_z, W, T_a_C_sum, R_s_sum, pressure_sum, rainfall_sum, rh_sum, u_z_sum, W_sum, T_a_C_mean, pressure_mean, rh_mean, u_z_mean, W_mean)
+                                T_a_C_sum, R_s_sum, pressure_sum, rainfall_sum, rh_sum, u_z_sum, W_sum, A_n_obs_sum, T_a_C_mean, pressure_mean, rh_mean, u_z_mean, W_mean = func.DailyMeanClimate(t, t_start, t_step, T_a_C, rainfall, pressure, R_s_total, A_n_obs, rh, u_z, W, T_a_C_sum, R_s_sum, pressure_sum, rainfall_sum, rh_sum, u_z_sum, W_sum, A_n_obs_sum, T_a_C_mean, pressure_mean, rh_mean, u_z_mean, W_mean)
                                 
                                 if LAI > 0:
                                     f_list, z_c, LA_z, d_LA, d_LA_g, LA_z_max, z_c = func.LAdistribution(N_layer, d_z_h, alpha, beta, leaf_type, height_c, d_z, Cg_leaf, C_leaf, LAI)
@@ -732,14 +732,13 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
                         if result[0] == False:
                             continueLoop, dormancy_dys, growing_dys, y2, month, day, LAI, virtual_LAI, virtual_LAI_day, A_sum_daily, A_n_sum_daily, A_stem_daily, A_root_daily, R_m_leaf_sum_daily, R_g_leaf_daily, virtual_A_n, leaf_onset, leaf_normal, C_increase_dy, R_a_c, L_leaf, L_leaf_d, L_all, Cg_leaf, Cd_leaf, C_leaf, C_stem, C_root, C_all, phenophase, phase2to3_dy, phase3to2_dy, phase3to2_dy2, phaseto4_dy, leaf_dormant, virtual_DOY, virtual_T_a_C_mean, virtual_R_s_sum, virtual_pressure_mean, virtual_rainfall_sum, virtual_rh_mean, virtual_u_z_mean, virtual_W_mean, virtual_A_sum_daily, virtual_R_a_c, virtual_R_m_leaf_sum_daily, virtual_ET_daily, virtual_ET_c_daily, virtual_ET_eq_daily, virtual_LAI_list, virtual_LAI_g, virtual_C_leaf, virtual_Cg_leaf, virtual_Cd_leaf, virtual_C_stem, virtual_C_root, virtual_C_all = result
                         
-                        print(f'{A_sum_daily}, {A_stem_daily}, {A_root_daily}, {R_m_leaf_sum_daily}, {R_g_leaf_daily}, {L_leaf}', file=CARBON)
                         if virtual_LAI == 0:
                             print(f'{year}-{itrn}-{DOY}\t{LAI}[{phenophase}]', end = '\t') 
                             if leaf_onset == 1:
                                 print('*', end='')
                             print(f'\n\t{A_sum_daily*1000}\t{R_a_c*1000}\t{ET_daily}\t{ET_c_daily}\t{W_mean}')
                             print(f'{DOY},{T_a_C_mean},{R_s_sum},{pressure_mean},{rainfall_sum},{rh_mean},{u_z_mean},{W_mean}', file = MEANCLIM)
-                            print(f'{DOY},{A_sum_daily*1000},{R_a_c*1000},{R_m_leaf_sum_daily*1000},{ET_daily},{ET_c_daily},{ET_eq_daily}', file = DAILY)
+                            print(f'{DOY},{A_n_obs_sum},{A_sum_daily*1000},{R_a_c*1000},{R_m_leaf_sum_daily*1000},{ET_daily},{ET_c_daily},{ET_eq_daily}', file = DAILY)
                             print(f'{DOY},{LAI},{C_leaf},{C_stem},{C_root},{C_all},{LAI_g},{phenophase}', file = ALLOCATION)
 
                             A_sum_yearly += A_sum_daily
@@ -753,7 +752,7 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
                             while virtual_LAI_day <= virtual_LAI_succeed_day:
                                 print(f'{virtual_DOY[virtual_LAI_day-1]},{virtual_A_sum_daily[virtual_LAI_day-1]*1000},{virtual_R_a_c[virtual_LAI_day-1]*1000},{virtual_ET_daily[virtual_LAI_day-1]},{virtual_ET_c_daily[virtual_LAI_day-1]},{virtual_ET_eq_daily[virtual_LAI_day-1]}')
                                 print(f'{virtual_DOY[virtual_LAI_day-1]},{virtual_T_a_C_mean[virtual_LAI_day-1]},{virtual_R_s_sum[virtual_LAI_day-1]},{virtual_pressure_mean[virtual_LAI_day-1]},{virtual_rainfall_sum[virtual_LAI_day-1]},{virtual_rh_mean[virtual_LAI_day-1]},{virtual_u_z_mean[virtual_LAI_day-1]},{virtual_W_mean[virtual_LAI_day-1]}', file=MEANCLIM)
-                                print(f'{virtual_DOY[virtual_LAI_day-1]},{virtual_A_sum_daily[virtual_LAI_day-1]*1000},{virtual_R_a_c[virtual_LAI_day-1]*1000},{virtual_R_m_leaf_sum_daily[virtual_LAI_day-1]*1000},{virtual_ET_daily[virtual_LAI_day-1]},{virtual_ET_c_daily[virtual_LAI_day-1]},{virtual_ET_eq_daily[virtual_LAI_day-1]}', file=DAILY)
+                                print(f'{virtual_DOY[virtual_LAI_day-1]},{A_n_obs_sum},{virtual_A_sum_daily[virtual_LAI_day-1]*1000},{virtual_R_a_c[virtual_LAI_day-1]*1000},{virtual_R_m_leaf_sum_daily[virtual_LAI_day-1]*1000},{virtual_ET_daily[virtual_LAI_day-1]},{virtual_ET_c_daily[virtual_LAI_day-1]},{virtual_ET_eq_daily[virtual_LAI_day-1]}', file=DAILY)
                                 print(f'{virtual_DOY[virtual_LAI_day-1]},{virtual_LAI_list[virtual_LAI_day-1]},{virtual_C_leaf[virtual_LAI_day-1]},{virtual_C_stem[virtual_LAI_day-1]},{virtual_C_root[virtual_LAI_day-1]},{virtual_C_all[virtual_LAI_day-1]},{virtual_LAI_g[virtual_LAI_day-1]},1', file=ALLOCATION)
                                 
                                 A_sum_yearly += virtual_A_sum_daily[virtual_LAI_day-1]
@@ -790,19 +789,18 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
         diff_C_stem = abs(C_stem_pre - C_stem)
         diff_C_root = abs(C_root_pre - C_root)
 
-        if diff_C_stem > 0.01:
+        if diff_C_stem > 0.5:
             diff_count_yr += 1
-        if diff_C_root > 0.01:
+        if diff_C_root > 0.5:
             diff_count_yr += 1
 
         print(f'{itrn}\t{diff_C_stem}\t{diff_C_root}')
 
         if diff_count_yr == 0 and DOY == DOY_max:
-            break
+            BreakLOOP = True
 
         C_stem_pre = C_stem
         C_root_pre = C_root
-        BreakLOOP = True
 
 end_time = time.time()
 min = (end_time - start_time) // 60

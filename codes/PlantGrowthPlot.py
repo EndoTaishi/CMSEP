@@ -5,7 +5,7 @@ import numpy as np
 
 site = 'KWG'
 year = 2000
-path = f'./../out/{site}/{year}_wind11/'
+path = f'./../out/{site}/{year}/'
 
 # CSVファイルの読み込み
 df_clim = pd.read_csv(path + 'meanclim/' + f'meanclim_{year}.csv', header=None)
@@ -36,8 +36,11 @@ axs[2].plot(df_lai[0], df_lai[1], color='black')
 axs[2].set_ylabel('LAI (m$^2$m$^{-2}$)')
 
 # 第4グラフ: DOY vs GPP
-axs[3].plot(df_gpp[0], df_gpp[1], color='black')
+ax3 = axs[3].twinx()
+axs[3].plot(df_gpp[0], df_gpp[2], color='black')
 axs[3].set_ylabel('GPP (gCm$^{-2}$dy$^{-1}$))')
+ax3.plot(df_gpp[0], df_gpp[1], color='pink')
+ax3.set_ylabel('GPP obs (gCm$^{-2}$dy$^{-1}$))')
 
 # 最後のグラフのX軸に名前を付ける
 axs[3].set_xlabel('Day of year')  # X軸の名前

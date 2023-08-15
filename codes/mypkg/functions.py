@@ -44,6 +44,10 @@ def inputClimateData(t: int, t_start: float, t_step: int, elv: int, flux_data: l
         R_s_total = R_s_total_pre
     else:
         R_s_total = flux_data[6] # (W/m^2)
+    if flux_data[19] == -9999:
+        A_n_obs = 0
+    else:
+        A_n_obs = flux_data[19]
     sun_duration = 0
     solar_elevation_pre = solar_elevation
 
@@ -87,7 +91,7 @@ def inputClimateData(t: int, t_start: float, t_step: int, elv: int, flux_data: l
     u_z_pre = u_z
     R_s_total_pre = R_s_total
 
-    return T_a_C, T_a_K, rainfall, u_z, pressure, R_s_total, rh, VPD_a, rho_a, C_p, c_p, gamma, Delta, sun_duration_pos, COSTHETA, R_s_d_total, sun_duration, S_max, R_s_b_total, solar_elevation, k_b, k_d, k_b_black, k_d_black, L_down, R_s_b, R_s_d, T_a_C_pre, rainfall_pre, rh_pre, u_z_pre, R_s_total_pre
+    return T_a_C, T_a_K, rainfall, u_z, pressure, R_s_total, A_n_obs, rh, VPD_a, rho_a, C_p, c_p, gamma, Delta, sun_duration_pos, COSTHETA, R_s_d_total, sun_duration, S_max, R_s_b_total, solar_elevation, k_b, k_d, k_b_black, k_d_black, L_down, R_s_b, R_s_d, T_a_C_pre, rainfall_pre, rh_pre, u_z_pre, R_s_total_pre
 
 def CalPressVPD(a0: float, b0: float, c0: float, R: float, M_d: float, C_pd: int, T_a_C: float, T_a_K: float, pressure: float, rh: float):
     e_s_Ta = c0 * np.exp(a0 * T_a_C / (T_a_C + b0)) # saturation vapor pressure (hPa)
@@ -1175,7 +1179,7 @@ def AllocationModel(vegetation_type: int, leaf_type: int, k_n: float, R_g_parame
         elif leaf_type > 0 and phenophase == 3 and Cg_leaf < Cg_max * 0.45:
             phenophase = 2
         elif phenophase < 3 and Cg_leaf > Cg_max:
-            print("Cg_leaf reached maximum")
+            print("Cg_leaf reached the maximum value")
             phenophase = 3
             C_increase_dy = 0
 
@@ -1346,7 +1350,7 @@ def AllocationModel(vegetation_type: int, leaf_type: int, k_n: float, R_g_parame
 
     return A_sum_daily, A_n_sum_daily, A_stem_daily, A_root_daily, R_m_leaf_sum_daily, R_g_leaf_daily, leaf_onset, leaf_normal, C_increase_dy, dormancy_dys, R_a_c, L_leaf, L_leaf_d, L_all, Cg_leaf, Cd_leaf, C_leaf, C_stem, C_root, C_all, phenophase, phase2to3_dy, phase3to2_dy, phase3to2_dy2, phaseto4_dy, leaf_dormant, dormancy_dys
 
-def DailyMeanClimate(t: int, t_start: int, t_step: int, T_a_C: float, rainfall: float, pressure: float, R_s_total: float, rh: float, u_z: float, W: float, T_a_C_sum: float, R_s_sum: float, pressure_sum: float, rainfall_sum: float, rh_sum: float, u_z_sum: float, W_sum: float, T_a_C_mean: float, pressure_mean: float, rh_mean: float, u_z_mean: float, W_mean: float):
+def DailyMeanClimate(t: int, t_start: int, t_step: int, T_a_C: float, rainfall: float, pressure: float, R_s_total: float, A_n_obs: float, rh: float, u_z: float, W: float, T_a_C_sum: float, R_s_sum: float, pressure_sum: float, rainfall_sum: float, rh_sum: float, u_z_sum: float, W_sum: float, A_n_obs_sum: float, T_a_C_mean: float, pressure_mean: float, rh_mean: float, u_z_mean: float, W_mean: float):
     T_a_C_sum += T_a_C
     R_s_sum += R_s_total * 60 * t_step / 1_000_000 #Jm^-2s^-1 -> MJm^-2dy^-1
     pressure_sum += pressure
@@ -1354,6 +1358,7 @@ def DailyMeanClimate(t: int, t_start: int, t_step: int, T_a_C: float, rainfall: 
     rh_sum += rh
     u_z_sum += u_z
     W_sum += W
+    A_n_obs_sum += A_n_obs * 12 * 60 * t_step / 1_000_000 #μmolm^-2s^-1 -> gCm^-2dy^-1
 
     if t == (1440 - t_start):
         T_a_C_mean = T_a_C_sum / (1440/t_step)
@@ -1362,4 +1367,4 @@ def DailyMeanClimate(t: int, t_start: int, t_step: int, T_a_C: float, rainfall: 
         u_z_mean = u_z_sum / (1440/t_step)
         W_mean = W_sum / (1440/t_step)
 
-    return T_a_C_sum, R_s_sum, pressure_sum, rainfall_sum, rh_sum, u_z_sum, W_sum, T_a_C_mean, pressure_mean, rh_mean, u_z_mean, W_mean
+    return T_a_C_sum, R_s_sum, pressure_sum, rainfall_sum, rh_sum, u_z_sum, W_sum, A_n_obs_sum, T_a_C_mean, pressure_mean, rh_mean, u_z_mean, W_mean
