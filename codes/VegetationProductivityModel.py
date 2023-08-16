@@ -17,7 +17,7 @@ if site == 'KWG':
     vegetation_type = 0
     leaf_type = 0
     t_step = 30  # (min)
-    year_start, year_end = 2000, 2000
+    year_start, year_end = 1995, 2004
 
 t_start = int(t_step / 2)
 lon_LST = 15 * t_offset_GMT
