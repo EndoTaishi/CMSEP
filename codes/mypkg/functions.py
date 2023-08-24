@@ -16,21 +16,21 @@ def MakeDirectory(site: str, year: int):
             os.makedirs(directory, exist_ok=True)
 
 def inputClimateData(t: int, t_start: float, t_step: int, elv: int, flux_data: list, solar_elevation: float, a0: float, b0: float, c0: float, R: float, M_d: float, C_pd: int, k_b_black: float, DOY_max: int, DOY: int, latitude: float, refraction: float, lon: float, lon_LST: float, SteBol_const: float, sun_duration_sum: int, sun_duration_count: int, T_a_C_pre: float, rainfall_pre: float, rh_pre: float, u_z_pre: float, R_s_total_pre: float):
-    if flux_data[2] == -9999:
+    if flux_data[3] == -9999:
         T_a_C = T_a_C_pre
     else:
-        T_a_C = flux_data[2] # air temperature (℃)
+        T_a_C = flux_data[3] # air temperature (℃)
     T_a_K = T_a_C + 273.15 # air temperature (K)
     
-    if flux_data[1] == -9999:
+    if flux_data[2] == -9999:
         rainfall = rainfall_pre
     else:
-        rainfall = flux_data[1] # * 60 * t_step # (mm/30min)
+        rainfall = flux_data[2] # * 60 * t_step # (mm/30min)
 
-    if flux_data[3] == -9999:
+    if flux_data[4] == -9999:
         rh = rh_pre
     else:
-        rh = max(flux_data[3], 0.0001)
+        rh = max(flux_data[4], 0.0001)
 
     if flux_data[5] == -9999:
         u_z = u_z_pre
@@ -43,11 +43,12 @@ def inputClimateData(t: int, t_start: float, t_step: int, elv: int, flux_data: l
     if flux_data[6] == -9999:
         R_s_total = R_s_total_pre
     else:
-        R_s_total = flux_data[6] # (W/m^2)
-    if flux_data[19] == -9999:
-        A_n_obs = 0
-    else:
-        A_n_obs = flux_data[19]
+        R_s_total = flux_data[6] * 277.78 # (W/m^2)
+    # if flux_data[19] == -9999:
+    #     A_n_obs = 0
+    # else:
+    #     A_n_obs = flux_data[19]
+    A_n_obs = 0
     sun_duration = 0
     solar_elevation_pre = solar_elevation
 
@@ -1253,7 +1254,7 @@ def AllocationModel(vegetation_type: int, leaf_type: int, k_n: float, R_g_parame
         L_leaf = (loss_rate + loss_rate_W + loss_rate_T) * Cg_leaf
         if phenophase == 4 and leaf_type == 0:
             L_leaf += ((C_stem + C_root) / allocation_parameter[vegetation_type][leaf_type]) ** (1 / allocation_parameter_index[vegetation_type][leaf_type]) * (1 - 0.075) / 30
-        if vegetation_type == 0 and u_z_mean >= 11.0:
+        if vegetation_type == 0 and u_z_mean >= 6.0:
             if leaf_type == 0:
                 L_leaf += 0.001 * u_z_mean ** 2 * Cg_leaf
                 L_leaf_d += 0.003 * u_z_mean ** 2 * Cd_leaf

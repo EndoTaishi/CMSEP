@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import numpy as np
 
-site = 'KWG'
+site = 'TYO'
 
-for year in range(2003, 2004):
+for year in range(2001, 2023):
     #year = 2000
     path = f'./../out/{site}/{year}/'
 

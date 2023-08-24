@@ -7,7 +7,19 @@ import mypkg.functions as func
 
 start_time = time.time()
 
-site = 'KWG'
+site = 'TYO'
+
+if site == 'TYO':
+    lat, lon = 35.415, 139.450
+    t_offset_GMT = 9  # Site local time offset from UTC (GMT) (hours)
+    elv = 25  # elv: elevation (m)
+    z = 30  # z: reference height (m)
+    PFT = 'DBF'
+    vegetation_type = 0
+    leaf_type = 0
+    t_step = 60  # (min)
+    year_start, year_end = 2000, 2022
+
 if site == 'KWG':
     lat, lon = 35.8725, 139.4869
     t_offset_GMT = 9  # Site local time offset from UTC (GMT) (hours)
@@ -60,7 +72,7 @@ C_a_out = 380  # atmospheric CO2 (ppm = μmol/mol)
 O_a_out = 209490  # oxygenc partial pressure in chloroplast (ppm) (205–209 μbar)
 g_s_max = [[7.5, 8.3, 8.3, 8.3], [12, 10]] # maximum stomatal conductance (mm/s) ~ (IGBP)
 R_g_parameter = [0.25, 0.25]  # growth respiration parameter ~ (Knorr, 2000)
-allocation_parameter = [[65, 52, 30, 35], [0.8, 3]]
+allocation_parameter = [[95, 52, 30, 35], [0.8, 3]]
 allocation_parameter_index = [[1.4, 1.3, 1.4, 1.6], [1.2, 1.2]]
 r_0 = 0.3  # fractional carbon allocation to root for non-limiting conditions
 s_0 = 0.3  # fractional carbon allocation to stem for non-limiting conditions
@@ -507,7 +519,7 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
                             open(f'./../out/{site}/{year}/canopy/canopy_{year}_{str(month).zfill(2)}_{str(day).zfill(2)}.csv', 'w') as CANOPY:
 
                             reader = csv.reader(IN)
-                            for t, flux_data in zip(range(15, 1441, 30), reader):
+                            for t, flux_data in zip(range(t_start, 1441, t_step), reader):
 
                                 hr = int(t / 60) # (hour)
                                 min = int(t % 60) # (min)
