@@ -25,7 +25,7 @@ def inputClimateData(t: int, t_start: float, t_step: int, elv: int, flux_data: l
     if flux_data[2] == -9999:
         rainfall = rainfall_pre
     else:
-        rainfall = flux_data[2] # * 60 * t_step # (mm/30min)
+        rainfall = max(0, flux_data[2]-4) # * 60 * t_step # (mm/30min)
 
     if flux_data[4] == -9999:
         rh = rh_pre

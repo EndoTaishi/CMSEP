@@ -53,7 +53,8 @@ for year in range(2001, 2023):
     plt.xlim(0, 365)
 
     # plot
-    #plt.show()
+    plt.show()
+    plt.close()
 
     # save as pdf
-    fig.savefig(path + f'PlantGrowthPlot_{year}.pdf', bbox_inches='tight')
+    # fig.savefig(path + f'PlantGrowthPlot_{year}.pdf', bbox_inches='tight')
