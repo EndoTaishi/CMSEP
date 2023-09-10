@@ -19,7 +19,7 @@ if site == 'TYO':
     vegetation_type = 0
     leaf_type = 0
     t_step = 60  # (min)
-    year_start, year_end = 2000, 2022
+    year_start, year_end = 2000, 2000
 
 if site == 'KWG':
     lat, lon = 35.8725, 139.4869
@@ -52,12 +52,12 @@ emissivity_c = 0.97  # emissivity of canopy
 emissivity_s = 0.97  # emissivity of soil
 extinction_coef = 0.5  # extinction coeffcient
 u_attenuation_coef = 2.5 # in-canopy extinction coefficient ~ (Shuttleworth & Wallace, 1985)
-d_leaf = [0.05, 0.05, 0.03, 0.03] # characteristic dimension of leaf (m) ~ (Jones, 1992)
+d_leaf = np.array([0.05, 0.05, 0.03, 0.03])  # characteristic dimension of leaf (m) ~ (Jones, 1992)
 albedo_c = 0.15
-reflectance = [0.09, 0.3]  # PAR, SR
-transmissivity = [0.06, 0.2]  # PAR, SR
-albedo_soil = [0.06, 0.26]  # PAR, SR
-scattering_coefficient = [0.20, 0.85] # scattering coefficient of the leaf (PAR, SR)
+reflectance = np.array([0.09, 0.3])  # PAR, SR
+transmissivity = np.array([0.06, 0.2])  # PAR, SR
+albedo_soil = np.array([0.06, 0.26])  # PAR, SR
+scattering_coefficient = np.array([0.20, 0.85])  # scattering coefficient of the leaf (PAR, SR)
 reflectance_b = 0.09  # effective canopy-soil reflectance for direct beam radiaiton
 reflectance_d = 0.09  # effective canopy-soil reflectance for diffusive radiaiton
 k_b = 0.5  # extinction_coeffcient of a canopy for direct beam radiation
@@ -67,54 +67,54 @@ k_d_black = 0.4 # extinction_coeffcient of a canopy of black leaves for direct d
 k_n = 0.5  # extinction_coeffcient of a canopy for leaf nitrogen
 k_u = 0.5  # extinction_coeffcient of a canopy for wind speed
 absorptance = 1 - reflectance[0] - transmissivity[0]  # PAR
-alpha = [5, 2.5, 2.5, 2.5]
-beta = [2, 4.5, 4.5, 4.5]
+alpha = np.array([5, 2.5, 2.5, 2.5])
+beta = np.array([2, 4.5, 4.5, 4.5])
 C_a_out = 380  # atmospheric CO2 (ppm = μmol/mol)
 O_a_out = 209490  # oxygenc partial pressure in chloroplast (ppm) (205–209 μbar)
-g_s_max = [[7.5, 8.3, 8.3, 8.3], [12, 10]] # maximum stomatal conductance (mm/s) ~ (IGBP)
-R_g_parameter = [0.25, 0.25]  # growth respiration parameter ~ (Knorr, 2000)
-allocation_parameter = [[95, 52, 30, 35], [0.8, 3]]
-allocation_parameter_index = [[1.4, 1.3, 1.4, 1.6], [1.2, 1.2]]
+g_s_max = np.array([[7.5, 8.3, 8.3, 8.3], [12, 10]], dtype=object)  # maximum stomatal conductance (mm/s) ~ (IGBP)
+R_g_parameter = np.array([0.25, 0.25])  # growth respiration parameter ~ (Knorr, 2000)
+allocation_parameter = np.array([[95, 52, 30, 35], [0.8, 3]], dtype=object)
+allocation_parameter_index = np.array([[1.4, 1.3, 1.4, 1.6], [1.2, 1.2]], dtype=object)
 r_0 = 0.3  # fractional carbon allocation to root for non-limiting conditions
 s_0 = 0.3  # fractional carbon allocation to stem for non-limiting conditions
-r_00 = [[0.60, 0.60, 0.55, 0.6], [0.8, 0.8]] # fractional carbon allocation to root for non-limiting conditions
-s_00 = [0.1, 0.05, 0.2, 0.05] # fractional carbon allocation to stem for non-limiting conditions
-sensitivity_allocation = [[0.8, 0.8, 0.8, 0.5], [1, 1]] # sensitivity of allocation to changes in W & L
+r_00 = np.array([[0.60, 0.60, 0.55, 0.6], [0.8, 0.8]], dtype=object) # fractional carbon allocation to root for non-limiting conditions
+s_00 = np.array([0.1, 0.05, 0.2, 0.05]) # fractional carbon allocation to stem for non-limiting conditions
+sensitivity_allocation = np.array([[0.8, 0.8, 0.8, 0.5], [1, 1]], dtype=object) # sensitivity of allocation to changes in W & L
 specified_R_rate = 0.218 # specified respiration rate based on N content (kgC/kgN/dy) ~ (Keyser et al., 2000)
 CN_ratio_stem = 50  # C:N ratio of stem ~ (Arora, 2003)
 CN_ratio_root = 50  # C:N ratio of root ~ (Arora, 2003)
-V_c_max_org = [[80, 96, 50, 94], [80, 80]]
-Ha_V = [[62000, 71000, 71000, 71000], [65000, 70000]] # activation_energy (J/mol)
-J_m_25 = [[80, 84, 60, 82], [100, 60]]  # μmol/m^2/s
-Ha_J = [[48000, 59000, 52000, 52000], [48000, 52000]] # activation_energy (J/mol)
-Hd_J = [[219400, 219400, 219400, 219400], [219400, 219400]]  # deactivation_energy (J/mol)
-Delta_S = [635.2, 650, 650, 650]  # entropy factor (J/mol/K)
-Gamma_25 = [[37, 44.7, 40, 44.7], [45, 42]]# CO2 compensation point without dark respiration (μbar)
+V_c_max_org = np.array([[80, 96, 50, 94], [80, 80]], dtype=object)
+Ha_V = np.array([[62000, 71000, 71000, 71000], [65000, 70000]], dtype=object) # activation_energy (J/mol)
+J_m_25 = np.array([[80, 84, 60, 82], [100, 60]], dtype=object)  # μmol/m^2/s
+Ha_J = np.array([[48000, 59000, 52000, 52000], [48000, 52000]], dtype=object) # activation_energy (J/mol)
+Hd_J = np.array([[219400, 219400, 219400, 219400], [219400, 219400]], dtype=object)  # deactivation_energy (J/mol)
+Delta_S = np.array([635.2, 650, 650, 650])  # entropy factor (J/mol/K)
+Gamma_25 = np.array([[37, 44.7, 40, 44.7], [45, 42]], dtype=object) # CO2 compensation point without dark respiration (μbar)
 quantum_efficiency = 0.385 # quantum efficiency of RuBP regeneration (mol e mol-1 quanta)
 a_1 = 10
 g_0_sunlit = 0.1
 g_0_shaded = 0.1
 VPD_0 = 15  # Leuning, 1995
-R_m_base_stem = [0.00005, 0.0008, 0.00002, 0.0008]
-R_m_base_root = [[0.0012, 0.0008, 0.0012, 0.001], [0.0002, 0.0015]]
+R_m_base_stem = np.array([0.00005, 0.0008, 0.00002, 0.0008])
+R_m_base_root = np.array([[0.0012, 0.0008, 0.0012, 0.001], [0.0002, 0.0015]], dtype=object)
 death_rate_leaf = 0.0045  # death rate of leaf (/dy)
 push_down_rate = 0.05  # rate of leaf pushed down (/dy)
 # push_down_rate = 0.15  # rate of leaf pushed down (/dy)
-loss_rate_W_max = [[0.005, 0.005, 0.005, 0.015], [0.025, 0.015]] # maximum drought leaf loss rate (/dy)
+loss_rate_W_max = np.array([[0.005, 0.005, 0.005, 0.015], [0.025, 0.015]], dtype=object)  # maximum drought leaf loss rate (/dy)
 loss_rate_T_max = 3 # maximum cold leaf loss rate (/dy)
-b_W = [[1.1, 3, 3, 2], [2, 3]]  # shape parameter for leaf loss (drought)
+b_W = np.array([[1.1, 3, 3, 2], [2, 3]], dtype=object)  # shape parameter for leaf loss (drought)
 b_T = 3  # shape parameter for leaf loss (cold)
-# Temperature threshold for leaf loss because of cold stress (°C)
-T_cold = [[7, 0, 5, -5], [5, 8]]
-loss_rate_stem = [[0.000047, 0.000061, 0.000061, 0.000055], [0.00035, 0.00035]]
-loss_rate_root = [[0.0001, 0.000061, 0.0003, 0.000055], [0.00035, 0.00035]]
-loss_rate_standby_leaf = [[0, 0.00052, 0.00052, 0.00055], [0, 0.0001]]
-loss_rate_standby_stem = [0.00012, 0.00012, 0.00022, 0.000055]
-loss_rate_standby_root = [[0.00012, 0.00012, 0.00022, 0.000055], [0.01, 0.0006]]
-# successive days necessary for virtual leaf to survive at onset
-virtual_LAI_succeed_day = 7
+T_cold = np.array([[7, 0, 5, -5], [5, 8]], dtype=object)  # Temperature threshold for leaf loss because of cold stress (°C)
+loss_rate_stem = np.array([[0.000047, 0.000061, 0.000061, 0.000055], [0.00005, 0.00004]], dtype=object) # stem turnover rate (/dy)
+loss_rate_root = np.array([[0.00023, 0.00034, 0.00034, 0.00031], [0.00025, 0.00025]], dtype=object) # root turnover rate (/dy)
+loss_rate_standby_leaf = np.array([[0, 0.00052, 0.00052, 0.00055], [0, 0.0001]], dtype=object)
+loss_rate_standby_stem = np.array([0.00012, 0.00012, 0.00022, 0.000055])
+loss_rate_standby_root = np.array([[0.00012, 0.00012, 0.00022, 0.000055], [0.01, 0.0006]], dtype=object)
+virtual_LAI_succeed_day = 7 # successive days necessary for virtual leaf to survive at onset
+
 dormancy_terminate_day = 90
 porosity = 0.5  # porosity (i.e. saturated moisture content)
+
 ########################################################
 
 ## constants ###########################################
