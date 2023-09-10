@@ -3,6 +3,7 @@ import math
 import os
 import csv
 import time
+import numpy as np
 import mypkg.functions as func
 
 start_time = time.time()
@@ -314,28 +315,28 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
     u_z_mean = 0
     W_mean = 0
     T_a_C_mean_7 = [0] * 7
-    virtual_DOY = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_T_a_C_mean = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_R_s_sum = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_pressure_mean = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_rainfall_sum = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_rh_mean = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_u_z_mean = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_W_mean = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_A_sum_daily = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_R_a_c = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_R_m_leaf_sum_daily = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_ET_daily = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_ET_c_daily = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_ET_eq_daily = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_LAI_list = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_LAI_g = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_C_leaf = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_Cg_leaf = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_Cd_leaf = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_C_stem = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_C_root = [0] * (virtual_LAI_succeed_day + 1)
-    virtual_C_all = [0] * (virtual_LAI_succeed_day + 1)
+    virtual_DOY = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_T_a_C_mean = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_R_s_sum = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_pressure_mean = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_rainfall_sum = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_rh_mean = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_u_z_mean = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_W_mean = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_A_sum_daily = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_R_a_c = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_R_m_leaf_sum_daily = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_ET_daily = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_ET_c_daily = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_ET_eq_daily = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_LAI_list = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_LAI_g = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_C_leaf = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_Cg_leaf = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_Cd_leaf = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_C_stem = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_C_root = np.zeros(virtual_LAI_succeed_day + 1)
+    virtual_C_all = np.zeros(virtual_LAI_succeed_day + 1)
 
     # iterate calculations until steady conditions
     BreakLOOP = False
@@ -512,9 +513,9 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
                         u_z_sum = 0
                         W_sum = 0
                         A_n_obs_sum = 0
-                        S_b_down = [0]*(N_layer+1)
-                        S_d_down = [0]*(N_layer+1)
-                        S_d_up = [0]*(N_layer+1)
+                        S_b_down = np.zeros(N_layer+1)
+                        S_d_down = np.zeros(N_layer+1)
+                        S_d_up = np.zeros(N_layer+1)
 
                         t = -10 # time of the day (min)
                         with open(f'./../data/{site}/forcing/{year}/{site}_{year}_{str(month).zfill(2)}_{str(day).zfill(2)}.csv', 'r') as IN, \
@@ -552,12 +553,12 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
                                     Q_shaded = [0]*2
                                 else:
                                     if LAI > 0:
-                                        d_LA_su = [0] * (N_layer+1)
-                                        d_LA_sh = [0] * (N_layer+1)
-                                        S_d_down_pre = [0] * (N_layer+1)
-                                        S_d_up_pre = [0] * (N_layer+1)
-                                        diff_S_d_down = [0] * (N_layer+1)
-                                        diff_S_d_up = [0] * (N_layer+1)
+                                        d_LA_su = np.zeros(N_layer+1)
+                                        d_LA_sh = np.zeros(N_layer+1)
+                                        S_d_down_pre = np.zeros(N_layer+1)
+                                        S_d_up_pre = np.zeros(N_layer+1)
+                                        diff_S_d_down = np.zeros(N_layer+1)
+                                        diff_S_d_up = np.zeros(N_layer+1)
                                         Q_sunlit = [0, 0]
                                         Q_shaded = [0, 0]
                                         L = 1 # near infra red radiation
