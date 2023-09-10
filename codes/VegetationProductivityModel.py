@@ -298,8 +298,10 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
     pass200 = 0
 
     diff_count_yr = 0
-    C_stem_pre = 0
-    C_root_pre = 0
+    sum_C_stem = 0
+    sum_C_root = 0
+    ave_C_stem_pre = 0
+    ave_C_root_pre = 0
     A_sum_yearly_pre = 0
     R_m_leaf_sum_yearly_pre = 0
     R_a_c_yearly_pre = 0
@@ -797,9 +799,15 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
 
                 #print(f'#SUM, {A_sum_yearly}, {R_m_leaf_sum_yearly}, {R_a_c_yearly}, {ET_yearly}, {ET_c_yearly}, {ET_eq_yearly}', file=DAILY)
                 print(f'{year}, {A_sum_yearly*10}, {R_a_c_yearly*10}, {NPP_yearly}, {ET_yearly}, {ET_c_yearly}, {ET_eq_yearly}', file=YEARLY)
+
+            sum_C_stem += C_stem
+            sum_C_root += C_root
         
-        diff_C_stem = abs(C_stem_pre - C_stem)
-        diff_C_root = abs(C_root_pre - C_root)
+        ave_C_stem = sum_C_stem / (year_end - year_start + 1)
+        ave_C_root = sum_C_root / (year_end - year_start + 1)
+
+        diff_C_stem = ave_C_stem - ave_C_stem_pre
+        diff_C_root = ave_C_root - ave_C_root_pre
 
         if diff_C_stem > 0.5:
             diff_count_yr += 1
@@ -811,8 +819,8 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
         if diff_count_yr == 0 and DOY == DOY_max:
             BreakLOOP = True
 
-        C_stem_pre = C_stem
-        C_root_pre = C_root
+        ave_C_stem_pre = ave_C_stem
+        ave_C_root_pre = ave_C_root
 
 end_time = time.time()
 min = (end_time - start_time) // 60
