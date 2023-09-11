@@ -2,6 +2,7 @@ import math
 import numpy as np
 import os
 from typing import Tuple
+from numba import jit
 
 # functions ############################################
 def MakeDirectory(site: str, year: int):
@@ -1150,6 +1151,7 @@ def CalLAI(vegetation_type: int, leaf_type: int, k_n: float, R_g_parameter: list
     result = (continueLoop, dormancy_dys, growing_dys, y2, month, day, LAI, virtual_LAI, virtual_LAI_day, A_sum_daily, A_n_sum_daily, A_stem_daily, A_root_daily, R_m_leaf_sum_daily, R_g_leaf_daily, virtual_A_n, leaf_onset, leaf_normal, C_increase_dy, R_a_c, L_leaf, L_leaf_d, L_all, Cg_leaf, Cd_leaf, C_leaf, C_stem, C_root, C_all, phenophase, phase2to3_dy, phase3to2_dy, phase3to2_dy2, phaseto4_dy, leaf_dormant, virtual_DOY, virtual_T_a_C_mean, virtual_R_s_sum, virtual_pressure_mean, virtual_rainfall_sum, virtual_rh_mean, virtual_u_z_mean, virtual_W_mean, virtual_A_sum_daily, virtual_R_a_c, virtual_R_m_leaf_sum_daily, virtual_ET_daily, virtual_ET_c_daily, virtual_ET_eq_daily, virtual_LAI_list, virtual_LAI_g, virtual_C_leaf, virtual_Cg_leaf, virtual_Cd_leaf, virtual_C_stem, virtual_C_root, virtual_C_all)
     return result
 
+@jit(nopython=True, cache=True)
 def AllocationModel(vegetation_type: int, leaf_type: int, k_n: float, R_g_parameter: list, allocation_parameter: list, allocation_parameter_index: list, r_00: list, s_00: list, sensitivity_allocation: list, R_m_base_stem: list, R_m_base_root: list, death_rate_leaf: float, push_down_rate: float, loss_rate_W_max: list, loss_rate_T_max: float, b_W: list, b_T: float, T_cold: list, loss_rate_stem: list, loss_rate_root: list, loss_rate_standby_leaf: list, loss_rate_standby_stem: list, loss_rate_standby_root: list, leaf_onset: int, leaf_normal: int, leaf_dormant: int, C_increase_dy: int, dormancy_dys: int, phenophase: int, C_leaf: float, Cg_leaf: float, Cd_leaf: float, C_stem: float, C_root: float, C_all: float, phase2to3_dy: int, phase3to2_dy: int, phase3to2_dy2: int, phaseto4_dy: int, W: float, W_wilting: float, W_retention: float, virtual_LAI: int, loss_rate: float, DOY: int, LAI: float, LAI_g: float, A_sum_daily: float, A_n_sum_daily: float, R_m_leaf_sum_daily: float, sun_duration_pos: float, T_a_C_mean: float, pressure_mean: float, rh_mean: float, u_z_mean: float, W_mean: float):
     A_root_daily = 0
     A_stem_daily = 0
