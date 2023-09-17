@@ -741,7 +741,7 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
                         if result[0] == True:
                             continueLoop, dormancy_dys, growing_dys, y2, month, day, LAI, virtual_LAI, virtual_LAI_day, A_sum_daily, A_n_sum_daily, R_m_leaf_sum_daily, virtual_A_n = result
                             continue
-                        if result[0] == False:
+                        else:
                             continueLoop, dormancy_dys, growing_dys, y2, month, day, LAI, virtual_LAI, virtual_LAI_day, A_sum_daily, A_n_sum_daily, A_stem_daily, A_root_daily, R_m_leaf_sum_daily, R_g_leaf_daily, virtual_A_n, leaf_onset, leaf_normal, C_increase_dy, R_a_c, L_leaf, L_leaf_d, L_all, Cg_leaf, Cd_leaf, C_leaf, C_stem, C_root, C_all, phenophase, phase2to3_dy, phase3to2_dy, phase3to2_dy2, phaseto4_dy, leaf_dormant, virtual_DOY, virtual_T_a_C_mean, virtual_R_s_sum, virtual_pressure_mean, virtual_rainfall_sum, virtual_rh_mean, virtual_u_z_mean, virtual_W_mean, virtual_A_sum_daily, virtual_R_a_c, virtual_R_m_leaf_sum_daily, virtual_ET_daily, virtual_ET_c_daily, virtual_ET_eq_daily, virtual_LAI_list, virtual_LAI_g, virtual_C_leaf, virtual_Cg_leaf, virtual_Cd_leaf, virtual_C_stem, virtual_C_root, virtual_C_all = result
                         
                         if virtual_LAI == 0:
