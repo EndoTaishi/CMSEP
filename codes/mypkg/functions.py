@@ -513,7 +513,10 @@ def CalConductance(vegetation_type: int, leaf_type: int, d_leaf: list, R: float,
     # r_s: soil resistance (s/m) ~ (Sellers et al., 1992)
     r_s = np.exp(8.206 - 4.255 * wetness_soil_surface)
     
-    h_beta = 1 / 4 * (1 - math.cos(W / W_capacity * math.pi)) ** 2
+    if W < W_capacity:
+        h_beta = 1 / 4 * (1 - math.cos(W / W_capacity * math.pi)) ** 2
+    else:
+        h_beta = 1
 
     g_b_free_sunlit_pre = g_b_free_sunlit
     g_b_free_shaded_pre = g_b_free_shaded
@@ -643,15 +646,15 @@ def SimultaneousEquationsNight(vegetation_type: int, leaf_type: int, z: int, emi
 def SimultaneousPhotosynthesis(vegetation_type: int, leaf_type: int, reflectance: list, transmissivity: list, scattering_coefficient: list, reflectance_b: float, reflectance_d: float, k_b: float, k_d: float, k_b_black: float, absorptance: float, C_a_out: int, V_c_max_org: list, Ha_V: list, J_m_25: list, Ha_J: list, Hd_J: list, Delta_S: list, Gamma_25: list, a_1: int, VPD_0: int, T_cold: list, R: float, f: float, a: float, W_capacity: float, W_wilting: float, W: float, R_s_b: list, R_s_d: list, R_s_b_total: float, R_s_d_total: float, R_s_total: float, pressure: float, S_max: float, T_a_C_mean: float, LAI: float, LAI_g: float, LAI_sunlit: float, LAI_shaded: float, Q_sunlit: list, C_s_shaded: float, C_i_sunlit: float, C_i_shaded: float, T_c_C_sunlit: float, T_c_K_sunlit: float, T_c_C_shaded: float, T_c_K_shaded: float, G_0_sunlit: float, G_0_shaded: float, h_beta: float, C_s_sunlit: float, VPD_s_sunlit: float, VPD_s_shaded: float, J_sunlit_pre: float, J_shaded_pre: float, V_j_sunlit_pre: float, V_j_shaded_pre: float, Gamma_respiration_sunlit_pre: float, Gamma_respiration_shaded_pre: float, called_from=None):
     k_n, K_c_sunlit, K_c_shaded, K_o_sunlit, K_o_shaded, Gamma_sunlit, Gamma_shaded, O_i, V_c_max_sunlit, V_c_max_shaded, V_c_sunlit, V_c_shaded, J_sunlit, J_shaded, V_j_sunlit, V_j_shaded, V_n_sunlit, V_n_shaded, R_d_sunlit, R_d_shaded, A_c_sunlit, A_c_shaded, J_sunlit_pre, J_shaded_pre, V_j_sunlit_pre, V_j_shaded_pre = Photosynthesis(vegetation_type, leaf_type, transmissivity, reflectance, scattering_coefficient, reflectance_b, reflectance_d, k_b, k_d, k_b_black, absorptance, V_c_max_org, Ha_V, J_m_25, Ha_J, Hd_J, Delta_S, Gamma_25, T_cold, R, f, a, R_s_b, R_s_d, R_s_total, pressure, S_max, T_a_C_mean, LAI, LAI_g, LAI_sunlit, LAI_shaded, Q_sunlit, C_i_sunlit, C_i_shaded, T_c_C_sunlit, T_c_K_sunlit, T_c_C_shaded, T_c_K_shaded, J_sunlit_pre, J_shaded_pre, V_j_sunlit_pre, V_j_shaded_pre, called_from)
     W_retention = (W - W_wilting) / (W_capacity - W_wilting)
-
+    """
     if vegetation_type == 0:
         f_w = 10 * (W - W_wilting) / 3 / (W_capacity - W_wilting)
     elif vegetation_type == 1:
-        f_w = (W - W_wilting) / (W_capacity - W_wilting)
+        f_w = W_retention
 
     if f_w < 0:
         f_w = 0
-
+    """
     f_w = h_beta
 
     if R_s_total > 0 and S_max > 0: # analytical solution of photosynthesis rate and incellular CO2 concenteration

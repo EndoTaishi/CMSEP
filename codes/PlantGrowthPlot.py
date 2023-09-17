@@ -5,7 +5,7 @@ import numpy as np
 
 site = 'TYO'
 
-for year in range(2001, 2023):
+for year in range(2000, 2001):
     #year = 2000
     path = f'./../out/{site}/{year}/'
 
