@@ -5,7 +5,7 @@ import numpy as np
 
 site = 'TYO'
 
-for year in range(2000, 2001):
+for year in range(2001, 2023):
     #year = 2000
     path = f'./../out/{site}/{year}/'
 
@@ -53,7 +53,7 @@ for year in range(2000, 2001):
     plt.xlim(0, 365)
 
     # plot
-    #plt.show()
+    plt.show()
 
     # save as pdf
     fig.savefig(path + f'PlantGrowthPlot_{year}.pdf', bbox_inches='tight')

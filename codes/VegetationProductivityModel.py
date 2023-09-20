@@ -18,8 +18,8 @@ if site == 'TYO':
     PFT = 'DBF'
     vegetation_type = 0
     leaf_type = 0
-    t_step = 60  # (min)
-    year_start, year_end = 2000, 2000
+    t_step = 60*24  # (min)
+    year_start, year_end = 2001, 2021
 
 if site == 'KWG':
     lat, lon = 35.8725, 139.4869
@@ -163,7 +163,7 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
         W_wilting = WILT_data[2]
         W_critical = W_capacity * 0.75  # W_critical: critical point (mm)
     '''
-    W_retention = 0
+    W_retention = 1
     W_capacity = 400
     W_wilting = 200
     W_critical = W_capacity * 0.75  # W_critical: critical point (mm)
@@ -520,10 +520,11 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
 
                             reader = csv.reader(IN)
                             for t, flux_data in zip(range(t_start, 1441, t_step), reader):
+                                flux_data = flux_data[:-1]
 
                                 hr = int(t / 60) # (hour)
                                 min = int(t % 60) # (min)
-                                flux_data[1:] = [float(data) for data in flux_data[1:]]
+                                flux_data = [float(data) for data in flux_data]
 
                                 T_a_C, T_a_K, rainfall, u_z, pressure, R_s_total, A_n_obs, rh, VPD_a, rho_a, C_p, c_p, gamma, Delta, sun_duration_pos, COSTHETA, R_s_d_total, sun_duration, S_max, R_s_b_total, solar_elevation, k_b, k_d, k_b_black, k_d_black, L_down, R_s_b, R_s_d, T_a_C_pre, rainfall_pre, rh_pre, u_z_pre, R_s_total_pre = func.inputClimateData(t, t_start, t_step, elv, flux_data, solar_elevation, a0, b0, c0, R, M_d, C_pd, k_b_black, DOY_max, DOY, latitude, refraction, lon, lon_LST, SteBol_const, sun_duration_sum, sun_duration_count, T_a_C_pre, rainfall_pre, rh_pre, u_z_pre, R_s_total_pre)
                                 ### Main ##########
@@ -819,6 +820,7 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
 
         ave_C_stem_pre = ave_C_stem
         ave_C_root_pre = ave_C_root
+        BreakLOOP = True
 
 end_time = time.time()
 min = (end_time - start_time) // 60

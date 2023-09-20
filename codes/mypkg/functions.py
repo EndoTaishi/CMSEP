@@ -17,34 +17,33 @@ def MakeDirectory(site: str, year: int):
             os.makedirs(directory, exist_ok=True)
 
 def inputClimateData(t: int, t_start: float, t_step: int, elv: int, flux_data: list, solar_elevation: float, a0: float, b0: float, c0: float, R: float, M_d: float, C_pd: int, k_b_black: float, DOY_max: int, DOY: int, latitude: float, refraction: float, lon: float, lon_LST: float, SteBol_const: float, sun_duration_sum: int, sun_duration_count: int, T_a_C_pre: float, rainfall_pre: float, rh_pre: float, u_z_pre: float, R_s_total_pre: float):
-    if flux_data[3] == -9999:
+    if flux_data[2] == -9999:
         T_a_C = T_a_C_pre
     else:
-        T_a_C = flux_data[3] # air temperature (℃)
+        T_a_C = flux_data[2] # air temperature (℃)
     T_a_K = T_a_C + 273.15 # air temperature (K)
     
-    if flux_data[2] == -9999:
+    if flux_data[1] == -9999:
         rainfall = rainfall_pre
     else:
-        rainfall = flux_data[2] # * 60 * t_step # (mm/30min)
+        rainfall = flux_data[1] # * 60 * t_step # (mm/30min)
 
-    if flux_data[4] == -9999:
+    if flux_data[3] == -9999:
         rh = rh_pre
     else:
-        rh = max(flux_data[4], 0.0001)
+        rh = max(flux_data[3], 0.0001)
 
-    if flux_data[5] == -9999:
+    if flux_data[4] == -9999:
         u_z = u_z_pre
     else: 
-        u_z = max(flux_data[5], 0.1)
+        u_z = max(flux_data[4], 0.1)
 
-    # pressure = flux_data[9] / 100 # (hPa)
     pressure = 1013.25*(1-0.0065/T_a_K*elv)**5.2552
 
-    if flux_data[6] == -9999:
+    if flux_data[5] == -9999:
         R_s_total = R_s_total_pre
     else:
-        R_s_total = flux_data[6] * 277.78 # (W/m^2)
+        R_s_total = flux_data[5] * 11.574 # (W/m^2)
     # if flux_data[19] == -9999:
     #     A_n_obs = 0
     # else:
@@ -990,7 +989,7 @@ def WaterBalance(t_step: int, W: float, W_pre: float, W_capacity: float, W_wilti
     elif W >= W_wilting and W < W_capacity:
         W_retention = (W - W_wilting) / (W_capacity - W_wilting)
     else:
-        W_retention = 0
+        W_retention = 0.01
 
     if W_retention < 0:
         beta_water = 0
