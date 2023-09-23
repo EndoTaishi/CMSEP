@@ -6,7 +6,7 @@ sum_gpp = [0]*365
 
 site = 'TYO'
 start_year = 2001
-end_year = 2022
+end_year = 2021
 
 path = f'./../out/{site}'
 
