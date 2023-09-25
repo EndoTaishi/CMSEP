@@ -19,7 +19,7 @@ if site == 'TYO':
     vegetation_type = 0
     leaf_type = 0
     t_step = 60 * 3  # (min)
-    year_start, year_end = 2005, 2005
+    year_start, year_end = 1981, 2000
 
 if site == 'KWG':
     lat, lon = 35.8725, 139.4869
@@ -298,6 +298,8 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
     diff_count_yr = 0
     ave_C_stem_pre = 0
     ave_C_root_pre = 0
+    diff_C_stem = 1
+    diff_C_root
     A_sum_yearly_pre = 0
     R_m_leaf_sum_yearly_pre = 0
     R_a_c_yearly_pre = 0
@@ -338,8 +340,12 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
     while True:
         if BreakLOOP:
             break
-        sum_C_stem = 0
-        sum_C_root = 0
+        ave_C_stem = 0
+        ave_C_root = 0
+
+        if diff_C_stem < 0.5 and diff_C_root < 0.5:
+            start_year, year_end = 2001, 2022
+
         for year in range(year_start, year_end + 1):
             if BreakLOOP:
                 break
@@ -798,23 +804,15 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
                 #print(f'#SUM, {A_sum_yearly}, {R_m_leaf_sum_yearly}, {R_a_c_yearly}, {ET_yearly}, {ET_c_yearly}, {ET_eq_yearly}', file=DAILY)
                 print(f'{year}, {A_sum_yearly*10}, {R_a_c_yearly*10}, {NPP_yearly}, {ET_yearly}, {ET_c_yearly}, {ET_eq_yearly}', file=YEARLY)
 
-            sum_C_stem += C_stem
-            sum_C_root += C_root
+            ave_C_stem += C_stem / (year_end - year_start + 1)
+            ave_C_root += C_root / (year_end - year_start + 1)
         
-        ave_C_stem = sum_C_stem / (year_end - year_start + 1)
-        ave_C_root = sum_C_root / (year_end - year_start + 1)
-
         diff_C_stem = ave_C_stem - ave_C_stem_pre
         diff_C_root = ave_C_root - ave_C_root_pre
 
-        if diff_C_stem > 0.5:
-            diff_count_yr += 1
-        if diff_C_root > 0.5:
-            diff_count_yr += 1
-
         print(f'{itrn}\t{diff_C_stem}\t{diff_C_root}')
 
-        if diff_count_yr == 0 and DOY == DOY_max:
+        if year_end = 2022:
             BreakLOOP = True
 
         ave_C_stem_pre = ave_C_stem
