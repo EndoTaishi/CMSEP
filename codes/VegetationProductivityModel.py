@@ -299,7 +299,7 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
     ave_C_stem_pre = 0
     ave_C_root_pre = 0
     diff_C_stem = 1
-    diff_C_root
+    diff_C_root = 1
     A_sum_yearly_pre = 0
     R_m_leaf_sum_yearly_pre = 0
     R_a_c_yearly_pre = 0
@@ -344,7 +344,7 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
         ave_C_root = 0
 
         if diff_C_stem < 0.5 and diff_C_root < 0.5:
-            start_year, year_end = 2001, 2022
+            year_start, year_end = 2001, 2022
 
         for year in range(year_start, year_end + 1):
             if BreakLOOP:
@@ -812,7 +812,7 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
 
         print(f'{itrn}\t{diff_C_stem}\t{diff_C_root}')
 
-        if year_end = 2022:
+        if year_end == 2022:
             BreakLOOP = True
 
         ave_C_stem_pre = ave_C_stem

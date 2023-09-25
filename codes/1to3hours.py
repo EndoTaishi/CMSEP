@@ -43,8 +43,8 @@ def process_csv(input_file):
     output_df.to_csv(input_file, index=False, header=False)  # index=Falseと
 
 # 開始日と終了日を設定
-start_date = datetime(2006, 1, 1)
-end_date = datetime(2022, 12, 31)
+start_date = datetime(1981, 1, 1)
+end_date = datetime(2000, 12, 31)
 
 # 日付の範囲でループ
 current_date = start_date

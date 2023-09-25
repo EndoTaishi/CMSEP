@@ -58,3 +58,4 @@ for year in range(start_year, end_year+1):
 
     # save as pdf
     fig.savefig(path + f'PlantGrowthPlot_{year}.pdf', bbox_inches='tight')
+    plt.close(fig)
