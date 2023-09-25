@@ -18,8 +18,8 @@ if site == 'TYO':
     PFT = 'DBF'
     vegetation_type = 0
     leaf_type = 0
-    t_step = 60  # (min)
-    year_start, year_end = 2000, 2000
+    t_step = 60 * 3  # (min)
+    year_start, year_end = 2005, 2005
 
 if site == 'KWG':
     lat, lon = 35.8725, 139.4869

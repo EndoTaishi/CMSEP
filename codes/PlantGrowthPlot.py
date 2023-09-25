@@ -4,8 +4,9 @@ import matplotlib.ticker as ticker
 import numpy as np
 
 site = 'TYO'
+start_year, end_year = 2005, 2005
 
-for year in range(2000, 2001):
+for year in range(start_year, end_year+1):
     #year = 2000
     path = f'./../out/{site}/{year}/'
 
