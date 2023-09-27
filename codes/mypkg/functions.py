@@ -45,6 +45,7 @@ def inputClimateData(t: int, t_start: float, t_step: int, elv: int, flux_data: l
         R_s_total = R_s_total_pre
     else:
         R_s_total = flux_data[6] * 277.78 # (W/m^2)
+        
     # if flux_data[19] == -9999:
     #     A_n_obs = 0
     # else:

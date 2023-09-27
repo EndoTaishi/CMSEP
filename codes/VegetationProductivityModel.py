@@ -18,7 +18,7 @@ if site == 'TYO':
     PFT = 'DBF'
     vegetation_type = 0
     leaf_type = 0
-    t_step = 60 * 3  # (min)
+    t_step = 60  # (min)
     year_start, year_end = 1981, 2000
 
 if site == 'KWG':
@@ -30,7 +30,7 @@ if site == 'KWG':
     vegetation_type = 0
     leaf_type = 0
     t_step = 30  # (min)
-    year_start, year_end = 1995, 2004
+    year_start, year_end = 1981, 2000
 
 t_start = int(t_step / 2)
 lon_LST = 15 * t_offset_GMT
@@ -242,8 +242,8 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
     solar_elevation_pre = -30
     T_a_C_pre = 0
     rainfall_pre = 0
-    rh_pre = 0
-    u_z_pre = 0
+    rh_pre = 0.0001
+    u_z_pre = 2
     R_s_total_pre = 0
 
     if vegetation_type == 0:
@@ -343,7 +343,7 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
         ave_C_stem = 0
         ave_C_root = 0
 
-        if diff_C_stem < 0.5 and diff_C_root < 0.5:
+        if diff_C_stem < 0.3 and diff_C_root < 0.3:
             year_start, year_end = 2001, 2022
 
         for year in range(year_start, year_end + 1):
