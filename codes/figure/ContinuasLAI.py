@@ -9,7 +9,7 @@ end_year = 2022
 path = f'./../../out/{site}'
 
 # read csv
-files = path + '/{year}/daily/daily_{year}.csv'
+files = path + '/{year}/daily/allocation_{year}.csv'
 dfs = []
 
 for year in range(start_year, end_year+1):
@@ -19,14 +19,15 @@ for year in range(start_year, end_year+1):
 df = pd.concat(dfs, ignore_index=True)
 
 plt.figure(figsize=(14, 7))
-plt.plot(df[2], linewidth=0.5)
+plt.plot(df[1])
 
 # axis setting
 plt.xlabel('Day of year')
-plt.ylabel('GPP (gCm$^{-2}$dy$^{-1}$))')
+plt.ylabel('LAI (m$^2$m$^{-2}$)')
 
 
 plt.ylim(bottom=0)
 plt.xlim(left=0)
+
 
 plt.show()
