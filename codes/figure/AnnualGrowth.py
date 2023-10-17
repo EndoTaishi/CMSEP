@@ -8,14 +8,14 @@ site = 'TYO'
 start_year = 2001
 end_year = 2022
 
-path = f'./../out/{site}'
+path = f'./../../out/{site}'
 
 # Create the figure and axes outside the loop
 fig, axs = plt.subplots(2, 1, figsize=(14, 14), sharex=True) # 2行1列のレイアウトと共有X軸
 fig.subplots_adjust(hspace = 0)  # マージンをなくす
 
 for year in range(start_year, end_year+1):
-    path = f'./../out/{site}/{year}/'
+    path = f'./../../out/{site}/{year}/'
     
     # read csv
     df_gpp = pd.read_csv(path + 'daily/' + f'daily_{year}.csv', header=None)
