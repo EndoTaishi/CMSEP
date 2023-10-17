@@ -6,7 +6,7 @@ site = 'TYO'
 start_year = 2001
 end_year = 2022
 
-path = f'./../out/{site}'
+path = f'./../../out/{site}'
 
 # read csv
 df_npp = pd.read_csv(path + '/yearly/yearly.csv', header=None)
@@ -14,7 +14,7 @@ df_npp = pd.read_csv(path + '/yearly/yearly.csv', header=None)
 prec_data = []
 npp_data = []
 
-plt.boxplot((df_npp[1]-df_npp[2])/10, showmeans=True)
+plt.boxplot((df_npp[1]-df_npp[2])/10, showmeans=True, sym='')
 v = np.var((df_npp[1]-df_npp[2])/10)
 print(v)
 print(max((df_npp[1]-df_npp[2])/10))
@@ -23,7 +23,7 @@ print(np.mean((df_npp[1]-df_npp[2])/10))
 # graph setting
 fig, ax = plt.subplots(figsize=(14, 7))
 for year in range(start_year, end_year+1):
-    df_clim = pd.read_csv(f'{path}/{year}/meanclim/meanclim_{year}.csv', header=None)
+    df_clim = pd.read_csv(path + f'/{year}/meanclim/meanclim_{year}.csv', header=None)
     # sum of df_clim[4] is yearly sum of rainfall
     yearly_prec = df_clim[4].sum()
     yearly_npp = (df_npp[1][year-start_year]-df_npp[2][year-start_year])/10

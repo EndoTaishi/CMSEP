@@ -4,10 +4,11 @@ import matplotlib.ticker as ticker
 import numpy as np
 
 site = 'TYO'
+start_year, end_year = 2001, 2022
 
-for year in range(2001, 2023):
+for year in range(start_year, end_year+1):
     #year = 2000
-    path = f'./../out/{site}/{year}/'
+    path = f'./../../out/{site}/{year}/'
 
     # read csv
     df_clim = pd.read_csv(path + 'meanclim/' + f'meanclim_{year}.csv', header=None)
@@ -53,7 +54,8 @@ for year in range(2001, 2023):
     plt.xlim(0, 365)
 
     # plot
-    plt.show()
+    #plt.show()
 
     # save as pdf
     fig.savefig(path + f'PlantGrowthPlot_{year}.pdf', bbox_inches='tight')
+    plt.close(fig)
