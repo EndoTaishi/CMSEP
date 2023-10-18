@@ -6,7 +6,7 @@ site = 'TYO'
 start_year = 2001
 end_year = 2022
 
-path = f'./../out/{site}'
+path = f'./../../out/{site}'
 
 # read csv
 df_npp = pd.read_csv(path + '/yearly/yearly.csv', header=None)
@@ -14,7 +14,7 @@ df_npp = pd.read_csv(path + '/yearly/yearly.csv', header=None)
 prec_data = []
 npp_data = []
 
-plt.boxplot((df_npp[1]-df_npp[2])/10, showmeans=True)
+plt.boxplot((df_npp[1]-df_npp[2])/10, showmeans=True, sym='')
 v = np.var((df_npp[1]-df_npp[2])/10)
 print(v)
 print(max((df_npp[1]-df_npp[2])/10))
