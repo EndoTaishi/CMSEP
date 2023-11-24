@@ -335,8 +335,14 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
 
     # iterate calculations until steady conditions
     BreakLOOP = False
-    for i in range(21):
-        year_end = 2000 if i < 20 else 2022
+    while True:
+        if BreakLOOP:
+            break
+        ave_C_stem = 0
+        ave_C_root = 0
+
+        if diff_C_stem < 0.3 and diff_C_root < 0.3:
+            year_start, year_end = 2001, 2022
         for year in range(year_start, year_end + 1):
             if BreakLOOP:
                 break
@@ -796,7 +802,19 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
                 #print(f'#SUM, {A_sum_yearly}, {R_m_leaf_sum_yearly}, {R_a_c_yearly}, {ET_yearly}, {ET_c_yearly}, {ET_eq_yearly}', file=DAILY)
                 print(f'{year}, {A_sum_yearly*10}, {R_a_c_yearly*10}, {NPP_yearly}, {ET_yearly}, {ET_c_yearly}, {ET_eq_yearly}', file=YEARLY)
 
-        print(f'{i}回目の助走が終了しました.') if i < 20 else print('シミュレーションが終了しました.')
+            ave_C_stem += C_stem / (year_end - year_start + 1)
+            ave_C_root += C_root / (year_end - year_start + 1)
+        
+        diff_C_stem = ave_C_stem - ave_C_stem_pre
+        diff_C_root = ave_C_root - ave_C_root_pre
+
+        print(f'{itrn}\t{diff_C_stem}\t{diff_C_root}')
+
+        if year_end == 2022:
+            BreakLOOP = True
+
+        ave_C_stem_pre = ave_C_stem
+        ave_C_root_pre = ave_C_root
 
 end_time = time.time()
 min = (end_time - start_time) // 60
