@@ -19,7 +19,7 @@ if site == 'TYO':
     vegetation_type = 0
     leaf_type = 0
     t_step = 60*24  # (min)
-    year_start, year_end = 1981, 2022
+    year_start, year_end = 1981, 2000
 
 if site == 'KWG':
     lat, lon = 35.8725, 139.4869
@@ -298,6 +298,8 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
     diff_count_yr = 0
     ave_C_stem_pre = 0
     ave_C_root_pre = 0
+    diff_C_stem = 1
+    diff_C_root = 1
     A_sum_yearly_pre = 0
     R_m_leaf_sum_yearly_pre = 0
     R_a_c_yearly_pre = 0
