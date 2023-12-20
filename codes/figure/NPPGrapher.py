@@ -6,7 +6,7 @@ site = 'TYO'
 start_year = 2001
 end_year = 2022
 
-path = f'./../out/{site}'
+path = f'./../../out/{site}'
 
 # read csv
 df_npp = pd.read_csv(path + '/yearly/yearly.csv', header=None)

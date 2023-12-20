@@ -15,7 +15,7 @@ fig, axs = plt.subplots(2, 1, figsize=(14, 14), sharex=True) # 2行1列のレイ
 fig.subplots_adjust(hspace = 0)  # マージンをなくす
 
 for year in range(start_year, end_year+1):
-    path = f'./../out/{site}/{year}/'
+    path = f'./../../out/{site}/{year}/'
     
     # read csv
     df_gpp = pd.read_csv(path + 'daily/' + f'daily_{year}.csv', header=None)

@@ -8,7 +8,7 @@ start_year, end_year = 2001, 2022
 
 for year in range(start_year, end_year+1):
     #year = 2000
-    path = f'./../out/{site}/{year}/'
+    path = f'./../../out/{site}/{year}/'
 
     # read csv
     df_clim = pd.read_csv(path + 'meanclim/' + f'meanclim_{year}.csv', header=None)

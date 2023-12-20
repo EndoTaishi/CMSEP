@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 site = 'TYO'
-start_year = 1981
+start_year = 2001
 end_year = 2022
 
 path = f'./../../out/{site}'

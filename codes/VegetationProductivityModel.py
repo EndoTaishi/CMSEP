@@ -19,7 +19,7 @@ if site == 'TYO':
     vegetation_type = 0
     leaf_type = 0
     t_step = 60  # (min)
-    year_start, year_end = 1981, 2000
+    year_start, year_end = 1989, 2000
 
 if site == 'KWG':
     lat, lon = 35.8725, 139.4869
@@ -343,7 +343,7 @@ with open(f'./../out/{site}/yearly/yearly.csv', 'a') as YEARLY:
         ave_C_stem = 0
         ave_C_root = 0
 
-        if diff_C_stem < 0.3 and diff_C_root < 0.3:
+        if diff_C_stem < 0.1 and diff_C_root < 0.1:
             year_start, year_end = 2001, 2022
 
         for year in range(year_start, year_end + 1):
