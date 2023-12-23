@@ -4,7 +4,7 @@ import matplotlib.ticker as ticker
 import numpy as np
 
 site = 'TYO'
-start_year, end_year = 2023, 2023
+start_year, end_year = 2001, 2023
 
 for year in range(start_year, end_year+1):
     #year = 2000

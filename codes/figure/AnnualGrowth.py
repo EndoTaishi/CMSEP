@@ -6,7 +6,7 @@ sum_gpp = [0]*365
 
 site = 'TYO'
 start_year = 2001
-end_year = 2022
+end_year = 2023
 
 path = f'./../out/{site}'
 
@@ -21,10 +21,15 @@ for year in range(start_year, end_year+1):
     df_gpp = pd.read_csv(path + 'daily/' + f'daily_{year}.csv', header=None)
     df_lai = pd.read_csv(path + 'daily/' + f'allocation_{year}.csv', header=None)
     
-    axs[0].plot(df_lai[0], df_lai[1], color='yellowgreen', linewidth=0.5, label=f'{year}')
+    if year == 2023:
+        color = 'red'
+    else:
+        color = 'yellowgreen'
+    
+    axs[0].plot(df_lai[0], df_lai[1], color=color, linewidth=0.5, label=f'{year}')
     axs[0].set_ylabel('LAI (m$^2$m$^{-2}$)')
     
-    axs[1].plot(df_gpp[0], df_gpp[2], color='yellowgreen', linewidth=0.5, label=f'{year}')
+    axs[1].plot(df_gpp[0], df_gpp[2], color=color, linewidth=0.5, label=f'{year}')
     axs[1].set_ylabel('GPP (gCm$^{-2}$dy$^{-1}$))')
 
 # axis setting

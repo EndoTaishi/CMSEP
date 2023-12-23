@@ -24,7 +24,7 @@ def inputClimateData(t: int, t_start: float, t_step: int, elv: int, flux_data: l
     T_a_K = T_a_C + 273.15 # air temperature (K)
     
     if flux_data[2] == -9999:
-        rainfall = rainfall_pre
+        rainfall = 0
     else:
         rainfall = flux_data[2] # * 60 * t_step # (mm/30min)
 

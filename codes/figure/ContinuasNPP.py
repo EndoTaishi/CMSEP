@@ -4,7 +4,7 @@ import numpy as np
 
 site = 'TYO'
 start_year = 2001
-end_year = 2022
+end_year = 2023
 
 path = f'./../../out/{site}'
 
